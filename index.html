@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Загадки</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Tahoma, sans-serif;
+            background: linear-gradient(to right, #ffafbd, #ffc3a0);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .riddles-container {
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(5px);
+            border-radius: 10px;
+            padding: 30px;
+            width: 90%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .riddle-block {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .riddle-block img {
+            display: block;
+            margin: 0 auto 15px auto;
+            max-width: 100%;
+            height: auto;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+
+        .riddle-block img:hover {
+            transform: scale(1.02);
+        }
+
+        .riddle-block .input-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 5px;
+        }
+
+        .riddle-block input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            min-width: 200px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .riddle-block input:focus {
+            border-color: #ff8b66;
+        }
+
+        .riddle-block button {
+            background: #ff8b66;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .riddle-block button:hover {
+            background-color: #ff704f;
+        }
+
+        .riddle-block p.message {
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+
+        .check-all-button {
+            background: #7b4397;
+            background: linear-gradient(to right, #7b4397, #dc2430);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            text-transform: uppercase;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .check-all-button:hover {
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+            transform: translateY(-2px);
+        }
+
+        .check-all-button:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Загадки</h1>
+
+<div class="riddles-container">
+
+    <div class="riddle-block">
+        <img src="riddle1.jpg" alt="Загадка 1">
+        <img src="riddle2.jpg" alt="Загадка 2">
+        <img src="riddle3.jpg" alt="Загадка 3">
+
+        <div class="input-row">
+            <input
+                    type="text"
+                    id="answers123"
+                    placeholder="Ответы на первые три (через пробел)">
+            <button onclick="checkFirstThree()">Проверить 1-3</button>
+        </div>
+        <p id="message1" class="message"></p>
+    </div>
+
+    <div class="riddle-block">
+        <img src="riddle4.jpg" alt="Загадка 4">
+
+        <div class="input-row">
+            <input
+                    type="text"
+                    id="answer4"
+                    placeholder="Ответ на четвёртую">
+            <button onclick="checkFourth()">Проверить 4</button>
+        </div>
+        <p id="message2" class="message"></p>
+    </div>
+
+</div>
+
+<button class="check-all-button" onclick="checkAllAnswers()">Проверить все ответы</button>
+
+<script>
+
+    const correctAnswersBase64 = "NDQgOTAgNjA=";
+    const correctAnswer4Base64 = "Mg==";
+
+    function decodeBase64(str) {
+        return atob(str);
+    }
+
+    const correctAnswers123 = decodeBase64(correctAnswersBase64);
+    const correctAnswer4 = decodeBase64(correctAnswer4Base64);
+
+    function checkFirstThree() {
+        const userAnswer = document.getElementById('answers123').value.trim();
+        const message1 = document.getElementById('message1');
+
+        if (userAnswer === correctAnswers123) {
+            message1.textContent = 'Верно!';
+            message1.style.color = 'green';
+        } else {
+            message1.textContent = 'Неверно!';
+            message1.style.color = 'red';
+        }
+    }
+
+    function checkFourth() {
+        const userAnswer4 = document.getElementById('answer4').value.trim();
+        const message2 = document.getElementById('message2');
+
+        if (userAnswer4 === correctAnswer4) {
+            message2.textContent = 'Верно!';
+            message2.style.color = 'green';
+        } else {
+            message2.textContent = 'Неверно!';
+            message2.style.color = 'red';
+        }
+    }
+
+    function checkAllAnswers() {
+        const userAnswer123 = document.getElementById('answers123').value.trim();
+        const userAnswer4 = document.getElementById('answer4').value.trim();
+
+        if (userAnswer123 === correctAnswers123 && userAnswer4 === correctAnswer4) {
+            alert('Код от BIOS: твои ответы по порядку, без пробелов.');
+        } else {
+            alert('Некоторые ответы неверны');
+        }
+    }
+</script>
+</body>
+</html>
